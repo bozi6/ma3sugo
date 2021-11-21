@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<title>Release Notes 1.6.3.5</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta charset="utf-8" />
+		<meta name="keywords" content="release notes v1.6" />
+		<meta name="searchwords" content="release notes v1.6" />
+		<link rel="stylesheet" href="../../../Content/themes.jstree/default/style.css" />
+		<link rel="stylesheet" href="../../../Content/styles/Wysiwyg.css" />
+		<link rel="stylesheet" href="../../../Content/styles/Client_Wysiwyg.css" />
+		<link rel="stylesheet" href="../../../Content/styles/26_custom_styles.css" />
+		<link rel="stylesheet" href="../../../Content/styles/26_custom_wysiwyg_styles.css" />
+		<link rel="stylesheet" href="../../../Content/styles/SiteOffline.css" />
+		<script src="../../../Content/js/jquery-1.9.1.js"></script>
+		<script src="../../../Content/js/jquery.jstree.js"></script>
+		<script src="../../../Content/js/index.gma3idx.js"></script>
+		<script src="../../../Content/js/search.js"></script>
+	<script>
+function init()
+{
+    let h2Doms = document.getElementsByTagName('h2');
+    for(let i = 0; i < h2Doms.length; i++)
+    {
+        var currH2 = h2Doms[i];
+        currH2.onclick = function(event)
+        {
+            let elem = event.currentTarget;
+            var container = elem.nextElementSibling;
+            if(container.className.search("folding") != -1)
+            {
+                container.classList.toggle("visible");
+                elem.classList.toggle("uncollapsed");
+            }
+            else
+            {
+                console.error("Failed to get the corresponding folding container");
+            }
+        }
+    }
+
+    let h3Doms = document.getElementsByTagName('h3');
+    for(let i = 0; i < h3Doms.length; i++)
+    {
+        var currH3 = h3Doms[i];
+        currH3.onclick = function(event)
+        {
+            let elem = event.currentTarget;
+            var container = elem.nextElementSibling;
+            if(container.className.search("Folding") != -1)
+            {
+                container.classList.toggle("visible");
+                elem.classList.toggle("uncollapsed");
+            }
+            else
+            {
+                console.error("Failed to get the corresponding folding container");
+            }
+        }
+    }
+
+    let foldControls = document.getElementsByClassName('foldControlDiv');
+    for(let i = 0; i < foldControls.length; i++)
+    {
+        var currFoldControl = foldControls[i];
+        var expandBtn = document.createElement('div');
+        expandBtn.innerHTML = 'Expand All';
+        expandBtn.className = "internalLink";
+        expandBtn.id = "expandAllBtn";
+        currFoldControl.appendChild(expandBtn);
+
+        expandBtn.onclick = function(event)
+        {
+            var elem = event.currentTarget;
+            if(elem)
+            {
+                let hDoms = [];
+                let h2Doms = document.getElementsByTagName('h2');
+                let h3Doms = document.getElementsByTagName('h3');
+                hDoms = Array.prototype.concat.apply(hDoms,h2Doms);
+                hDoms = Array.prototype.concat.apply(hDoms,h3Doms);
+                for(var i = 0; i < hDoms.length; i++)
+                {
+                    hDoms[i].classList.add("uncollapsed");
+                    hDoms[i].nextElementSibling.classList.add("visible");
+                }
+            }
+        }
+
+        var newLabel = document.createElement('label');
+        newLabel.innerHTML = "&nbsp;|&nbsp;";
+        currFoldControl.appendChild(newLabel);;
+
+        var collapseBtn = document.createElement('div');
+        collapseBtn.innerHTML = 'Collapse All';
+        collapseBtn.className = "internalLink";
+        collapseBtn.id = "collapseAllBtn";
+        currFoldControl.appendChild(collapseBtn);
+
+        collapseBtn.onclick = function(event)
+        {
+            var elem = event.currentTarget;
+            if(elem)
+            {
+                let hDoms = [];
+                let h2Doms = document.getElementsByTagName('h2');
+                let h3Doms = document.getElementsByTagName('h3');
+                hDoms = Array.prototype.concat.apply(hDoms,h2Doms);
+                hDoms = Array.prototype.concat.apply(hDoms,h3Doms);
+                for(var i = 0; i < hDoms.length; i++)
+                {
+                    hDoms[i].classList.remove("uncollapsed");
+                    hDoms[i].nextElementSibling.classList.remove("visible");
+                }
+            }
+        }
+    }
+}
+</script>
+<style>
+body {
+    background-color: black;
+    color: white;
+}
+
+.topic-content a {
+    color: white !important;
+    text-decoration: underline;
+}
+
+.foldingContainer,
+.subFoldingContainer {
+    display:none;
+}
+
+.foldingContainer.visible,
+.subFoldingContainer.visible {
+    display:block;
+}
+
+h1, h2, h3, h4, h5, h6, #content h1, #content h2, #content h3, #content h4, #content h5, #content h6, .h3, .h4, .h5, .h6 {
+    color: #ffffff !important;
+}
+
+h2,
+h3 {
+    cursor: pointer;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding-bottom: 7px;
+}
+
+h3,
+.subFoldingContainer {
+    margin-left: 2em;
+    width: calc(100% - 2em);
+}
+
+h2::after,
+h3::after {
+    content: ' ';
+    width: 6px;
+    height: 6px;
+    color: transparent;
+    position: absolute;
+    right: 5px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transition: .2s linear;
+}
+
+h2.uncollapsed::after,
+h3.uncollapsed::after {
+    margin-top: 2px;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+#logoWrapper {
+    width: 14%;
+    position: fixed;
+    right: 3%;
+    top: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+@media (max-width: 1100px) {
+    #logoWrapper {
+        width: 18%;
+    }
+}
+
+@media (max-width: 768px) {
+    #logoWrapper {
+        width: 23%;
+    }
+}
+
+.maLogo {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.maLogo>svg {
+    width: 90%;
+}
+
+.gma3Sign {
+    width: 100%;
+    margin-right: 1em;
+}
+
+header,
+footer,
+.topic-tree {
+    display: none;
+}
+
+#body {
+    margin-top: 0px;
+}
+
+#offline-topic {
+    margin-left: 1.5%;
+    margin-right: 33%;
+}
+
+#offline-content {
+    position: relative;
+}
+
+main {
+    position: absolute;
+    width: 99%;
+    height: 98%;
+}
+
+#offline-content>ul:first-child,
+#offline-content>ul:nth-child(2) {
+    display: none;
+}
+
+#subH1 {
+    margin-top: 3em;
+}
+
+.foldControlDiv {
+    display: flex;
+    margin: 2.5em 0px 1.5em 0px;
+}
+
+.internalLink {
+    cursor: pointer;
+    color: white;
+}
+
+.noFold
+{
+    border-bottom: 0;
+    cursor: inherit;
+}
+
+.noFold::after
+{
+    content: inherit;
+}
+</style>
+</head>
+	<body onload="init();">
+		<header>
+			<div class="offline-logo"><a href="index.html"><img src="../../../Client/Content/images/logo.png" /></a></div>
+			<div class="offline-maintitle"><a href="index.html"><img src="../../../Client/Content/images/header_help_pages.png" /></a></div>
+			<div class="burger-menu-icon"></div>
+		</header>
+		
+		<div id="body">
+			<div class="topic-tree">
+				<div class="topic-tree-container">
+					<div class="close-icon">&times;</div>
+					
+				</div>
+			</div>
+
+			<main>
+				<div id="offline-topic" class="topic-content">
+		
+					<h1 id="offline-title">Software Agreement and Release Notes</h1>
+
+					<div id="logoWrapper"><div class="maLogo"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 385.00001 175"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   inkscape:export-filename="E:\Data\Downloads\MA Lighting.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   sodipodi:docname="ma_logo_farbe_schriftzug.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="71.02586"
+     inkscape:cy="100.91362"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="1912"
+     inkscape:window-y="224"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-877.36219)">
+    <g
+       id="g4277"
+       transform="translate(-233.10355,740.03324)">
+      <g
+         id="g4273">
+        <path
+           style="fill:#908f8f;fill-opacity:1;stroke:#908f8f;stroke-opacity:1"
+           d="m 234.02666,224.82877 0,-86.55052 86.55051,0 86.55052,0 -0.0755,86.475 -0.0755,86.47501 -86.475,0.0755 -86.475,0.0755 0,-86.55051 z m 181.10051,86.34995 c -0.11028,-0.11028 -0.20051,-39.05801 -0.20051,-86.55052 l 0,-86.35 86.85051,0 86.85051,0 -0.0755,86.475 -0.0755,86.47501 -86.57449,0.0755 c -47.61597,0.0415 -86.66472,-0.0147 -86.775,-0.125 z m 186.39949,-161.95052 0,-6.15 3.46491,0 c 3.88344,0 4.92384,0.32791 5.68002,1.79018 0.25029,0.48401 0.45507,1.50461 0.45507,2.268 0,1.15018 -0.15828,1.54627 -0.92391,2.31189 l -0.92391,0.92391 0.92391,2.09177 c 1.24218,2.81236 1.22379,2.91425 -0.52644,2.91425 l -1.45032,0 -0.87555,-2.325 c -0.82494,-2.19052 -0.93192,-2.33044 -1.84968,-2.41901 l -0.9741,-0.094 0,2.419 0,2.41901 -1.5,0 -1.5,0 z m 6.01974,-1.36055 c 0.60687,-0.32478 0.79908,-1.61882 0.28743,-1.93503 -0.3268,-0.29285 -0.905,-0.27451 -1.8,-0.28215 l -1.49609,-0.0128 -0.011,1.14871 0,1.39179 1.21971,0 c 0.67086,0 1.48086,-0.13975 1.8,-0.31055 z"
+           id="path4149-8"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccccccccccscccccsccccsssscssccsccccccccscccscc" />
+        <ellipse
+           style="opacity:1;fill:none;fill-opacity:1;stroke:#908f8f;stroke-width:1.62458313;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path4266"
+           cx="606.31696"
+           cy="149.44351"
+           rx="10.551201"
+           ry="10.545783" />
+      </g>
+      <path
+         id="path4149"
+         d="m 265.49023,160.15625 0,64.50391 0,64.5039 9.97461,-0.0781 9.97461,-0.0801 -0.0664,-49.19922 c -0.0557,-41.32722 -0.003,-48.98359 0.33203,-47.84961 0.21936,0.7425 5.82346,22.61211 12.45312,48.59961 6.62966,25.98751 12.18076,47.55453 12.33594,47.92578 l 0.2832,0.67383 8.53907,0 c 4.6963,0 8.60986,-0.1145 8.69726,-0.25586 0.0874,-0.14136 5.83842,-22.04589 12.78125,-48.67578 6.94282,-26.62989 12.73556,-48.75547 12.8711,-49.16797 0.1355,-0.4125 0.17438,21.49383 0.0879,48.67969 l -0.15625,49.42773 10.77148,-0.0781 10.76953,-0.0801 0,-64.34961 0,-64.34961 -15.33594,-0.0781 c -12.05002,-0.0611 -15.3958,0.004 -15.61914,0.30078 -0.15633,0.20773 -5.59287,21.10023 -12.08203,46.42773 -6.48916,25.3275 -11.90097,46.32039 -12.02539,46.65039 -0.18096,0.48 -0.26071,0.50844 -0.40039,0.14844 -0.096,-0.2475 -5.64085,-21.27714 -12.32031,-46.73438 -6.67946,-25.45724 -12.22397,-46.41715 -12.32227,-46.57617 -0.1107,-0.17911 -5.76534,-0.28906 -14.86132,-0.28906 l -14.68165,0 z"
+         style="fill:#e30613;fill-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         sodipodi:nodetypes="cccccccccscsscscccsccssscccc"
+         inkscape:connector-curvature="0"
+         id="path4149-8-5"
+         d="m 489.65457,158.92076 -2.98633,9.07617 c -19.81396,60.23154 -39.63735,121.18774 -39.49023,121.42578 0.29414,0.47588 22.24912,0.40175 22.54687,-0.0762 0.1285,-0.20625 2.5416,-7.86789 5.36133,-17.02539 l 5.125,-16.65039 20.89453,-0.0762 20.89258,-0.0781 0.73242,2.32813 c 0.40281,1.27987 2.72208,8.80656 5.15234,16.72656 2.43025,7.92 4.55213,14.56914 4.7168,14.77539 0.2304,0.2886 3.02235,0.375 12.11328,0.375 10.32675,0 11.81446,-0.0578 11.81446,-0.45313 0,-0.66237 -41.12392,-129.52988 -41.47657,-129.97265 -0.2304,-0.2893 -3.16748,-0.375 -12.84765,-0.375 l -12.54883,0 z m 12.33203,22.78711 c -0.33149,-0.0545 0.27663,2.90081 1.76172,8.54101 3.19328,12.12783 10.37745,37.77968 12.54492,44.79688 l 0.57813,1.875 -15.60352,0 c -12.39026,0 -15.57562,-0.0781 -15.46094,-0.37696 0.84525,-2.20269 6.41171,-20.897 12.04883,-40.46679 3.32149,-11.53085 4.16135,-14.8469 3.625,-14.31055 0.50586,-0.0586 0,0 0.58399,-0.006 -0.0305,-0.0305 -0.056,-0.0491 -0.0781,-0.0527 z"
+         style="fill:#e30613;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
+</div><div class="gma3Sign"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 1857 511"
+   id="svg2"
+   version="1.1">
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-541.36219)">
+    <path
+       style="fill:#2b2b2b;fill-opacity:1"
+       d="m 80.43835,1050.9196 14.55806,-0.5468 c 2.934,-0.3012 8.0177,-0.5905 11.2969,-0.6426 l 5.9629,-0.094 5.7031,-1.9141 c 3.1366,-1.053 7.4837,-2.8152 9.6602,-3.916 2.1765,-1.1008 6.0144,-3.3894 8.5293,-5.084 l 4.5722,-3.0801 5.0449,-5.0195 5.0469,-5.0176 4.3223,-6.6328 4.3222,-6.6308 2.5586,-5.6172 c 1.4079,-3.0894 3.65,-9.01431 4.9825,-13.16801 1.3326,-4.1538 3.0958,-10.76721 3.9179,-14.69531 0.8222,-3.92809 2.0595,-10.78562 2.75,-15.24023 l 1.2559,-8.0996 0.2598,-139.64845 0.2597,-139.64843 -17.9316,0 -17.9317,0 -0.0214,17.33593 -0.0215,17.33789 -2.1172,-4.95311 c -1.1643,-2.7244 -3.4253,-7.01254 -5.0254,-9.52735 -1.6002,-2.51482 -4.4384,-6.37247 -6.3066,-8.57422 l -3.3965,-4.00391 -4.459,-3.43164 -4.459,-3.43164 -5.2187,-2.65039 -5.2188,-2.65039 -6.0742,-1.56836 -6.0742,-1.56641 -7.2403,-0.44922 -7.2383,-0.45117 -6.7558,0.90234 -6.7559,0.90235 -5.8183,1.8457 -5.8184,1.84571 -5.7148,3.36523 -5.7168,3.36328 -5.125,4.70703 -5.125,4.70703 -4.4629,5.92188 -4.4629,5.92382 -4.336,8.47657 -4.3359,8.47851 -2.9765,8.98242 c -1.6366,4.94078 -3.8784,12.92798 -4.9825,17.74805 0,0 -1.759793,4.20963 -2.5967835,51.84751 -0.83699042,47.63788 0.8838835,55.73257 0.8838835,55.73257 l 1.7364,7.49219 c 1.117,4.82007 3.2083,12.36469 4.6464,16.76562 l 2.6153,8 4.1543,8.64649 4.1543,8.64648 3.6191,5.45312 3.6192,5.45118 5.666,5.9375 c 3.1163,3.26547 7.2364,7.09076 9.1562,8.5 1.9198,1.40923 5.9202,3.7797 8.8887,5.26953 l 5.3965,2.70898 6.0332,1.72657 6.0312,1.72656 11.4317,0.0215 11.4297,0.0195 5.9355,-1.39257 5.9336,-1.39063 6.0117,-3.00977 6.0098,-3.00781 5.7519,-5.37109 5.75,-5.36914 3.5371,-5.32227 3.5391,-5.32422 2.9492,-6.625 2.9512,-6.625 0.01,18.66993 0,18.67187 -0.7793,11.04883 c -0.4282,6.07748 -1.2916,14.30918 -1.92,18.29101 -0.6282,3.9818 -1.8745,9.98284 -2.7675,13.33594 -0.8931,3.35311 -2.5675,8.43267 -3.7227,11.28906 -1.1551,2.8563 -3.2437,7.10712 -4.6406,9.44532 l -2.5391,4.25004 -4.5742,4.6601 -4.5723,4.6582 -5.3339,2.7871 -5.334,2.7871 -4.9531,1.3301 -4.9532,1.3301 -8.0019,-0.043 -8.002,-0.045 -6.0976,-1.6094 -6.0957,-1.6094 -6.4239,-3.0722 -6.4218,-3.0703 -4.627,-3.3028 -4.6269,-3.3047 -5.8536,-6.1269 c -3.2191,-3.3706 -6.7794,-7.52854 -7.9121,-9.24024 l -2.0605,-3.11328 -1.9942,0.01 -1.9941,0.01 -10.6699,11.52148 -10.086,10.89064 0,5.748 1.1817,1.7168 c 1.2334,1.7912 4.5481,5.7474 7.3672,8.791 l 5.1269,5.5352 6.4317,4.8262 6.4336,4.8281 6.664,3.5137 6.6641,3.5136 8.0664,2.6993 8.0683,2.7011 5.6192,0.094 c 3.0904,0.052 8.0192,0.3414 10.9531,0.6426 0,0 0,0 5.334,0.5469 m 856.22247,-503.48865 0.17678,80.56641 0,80.5664 -2.71484,-5.66211 c -1.49235,-3.11406 -4.21797,-7.7722 -6.05859,-10.35156 l -3.56645,-4.68945 -5.373,-4.97461 -5.3731,-4.97461 -6.0664,-3.15625 -6.0664,-3.15625 -5.9336,-1.61523 -5.9336,-1.61524 -11.8125,0 -11.8125,0 -6.0957,1.65625 -6.0976,1.65625 -4.8711,2.28125 c -2.6797,1.25393 -6.9748,3.77933 -9.5449,5.61328 l -4.6739,3.33399 -5.0566,5.36329 c -2.7819,2.94894 -6.4055,7.35774 -8.0508,9.79882 -1.6453,2.44109 -4.2102,6.66821 -5.7012,9.39257 -1.4909,2.7244 -3.9679,8.13285 -5.5039,12.01954 -1.536,3.88669 -3.6407,9.88774 -4.6777,13.33593 -1.037,3.4482 -2.7273,10.40648 -3.7558,15.46289 -1.0284,5.05644 -2.4041,13.63076 -3.0567,19.05275 l -1.1855,9.85742 -0.4473,17.14647 -0.4453,17.1465 0.8926,12.19336 c 0.4915,6.70618 1.4058,15.61513 2.0312,19.79687 0.6255,4.18174 1.8442,11.03924 2.709,15.24023 l 1.5742,7.63868 3.2598,9.90624 3.2597,9.9082 3.1602,6.81055 3.1602,6.8125 4.9003,7.36133 4.9004,7.36132 5.3204,5.37305 5.3203,5.375 5.8652,3.84961 5.8672,3.85156 6.25,2.26172 6.25,2.26172 6.3535,0.92969 6.3535,0.92773 8.4434,-0.46093 8.4414,-0.46289 4.9531,-1.19532 4.9531,-1.19336 6.2754,-3.0957 6.2735,-3.09766 5.3808,-4.98046 5.3789,-4.98243 4.36722,-6.62695 4.36718,-6.62891 2.26758,-5.63867 2.26953,-5.63867 0.20508,17.70313 0.20313,17.70312 17.89453,0 17.89453,0 0,-191.66016 0,-191.6582 -0.76172,0 m 881.71096,22.09961 0,-0.76367 -105.5469,0 -105.5449,0 0,25.14453 0,25.14258 58.5586,0.19531 58.5586,0.19531 -44.4609,62.07422 -44.461,62.07422 0,2.13086 0,2.12891 28.4239,0 28.4238,0 12.5801,-16.95508 c 6.9192,-9.32578 35.2813,-47.88783 63.0254,-85.69336 l 50.4433,-68.73828 M 2.1564212,1011.0929 l -0.5554237,-1.0971 0.2383,-1.7891 0.2402,-1.791 0.5273125,-0.6484 0.00359,5.7484 c 0,0 -0.203125,0.023 -0.4539788,-0.4228 z M 1045.6733,568.75361 l 0,181 0,181 18.289,0 18.2871,0 0.1914,-151.15234 0.1934,-151.15039 41.4844,147.53125 c 22.817,81.14252 41.9616,149.16144 42.5429,151.15234 l 1.0567,3.61914 18.4238,-0.01 18.4219,-0.0117 42.6758,-151.00391 42.6757,-151.00391 0.1934,151.01368 0.1914,151.01562 19.4317,0 19.4296,0 0,-180.99023 0,-180.99024 -29.2636,0 -29.2657,0 -0.7011,2.0957 c -0.3862,1.15262 -19.1888,68.34516 -41.7832,149.31641 -22.5945,80.97126 -41.2401,147.06069 -41.4336,146.86719 -0.1935,-0.19348 -19.2708,-67.29939 -42.3946,-149.125 L 1102.2768,569.154 1073.976,568.95478 Z m 462.4414,0 -26.0176,0.19922 -26.0195,0.20117 -45.5391,179.08594 c -25.0467,98.49703 -45.5436,179.86248 -45.5488,180.8125 l -0.012,1.72656 19.9902,-0.20312 19.9902,-0.20313 10.7481,-42.29492 c 5.9124,-23.26207 10.9853,-43.23801 11.2715,-44.39063 l 0.5195,-2.0957 53.248,0 53.25,0 0.3379,0.95313 c 0.1865,0.52392 5.0922,20.58452 10.9004,44.58007 l 10.5586,43.62891 20.4277,0 20.4278,0 0,-1.75977 c 0,-0.96765 -18.1888,-75.29758 -40.418,-165.17773 -22.2291,-89.88013 -42.1485,-170.5377 -44.2656,-179.24023 l -3.8496,-15.82227 z m -26.9571,40.29102 0.5547,1.39257 c 0.3051,0.76578 10.7096,45.11482 23.1211,98.55469 12.4116,53.43989 22.7531,97.93586 22.9805,98.87892 l 0.4121,1.71483 -47.418,0 -47.4199,0 0.3633,-1.39062 c 0.2,-0.76462 10.9479,-45.88544 23.8847,-100.26953 z m -805.46679,58.61523 -7.1386,1.25 -7.1407,1.24805 -5.5801,2.32422 -5.58,2.32226 -5.1895,3.66211 -5.1875,3.66016 -4.623,4.85938 c -2.5419,2.67277 -6.0946,7.03908 -7.8946,9.70312 -1.8001,2.66405 -4.7718,7.97995 -6.6035,11.8125 l -3.3301,6.96875 -0.0136,-1.99414 c -0.01,-1.09618 -0.369,-9.15469 -0.8008,-17.90821 -0.4318,-8.75352 -0.9533,-16.68583 -1.1582,-17.6289 l -0.3731,-1.71485 -18.0078,0 -18.0097,0 0.5312,8.57228 c 0.2912,4.71527 0.846,21.43276 1.2344,37.15039 l 0.707,28.57811 0.0215,90.11525 0.0215,90.11328 18.248,0 18.2481,0 0.2969,-79.82617 0.2968,-79.82617 1.6114,-8.38282 c 0.886,-4.6105 2.4768,-11.35774 3.5351,-14.99414 l 1.9238,-6.61132 3.0118,-6.51954 3.0117,-6.51757 4.0019,-5.79102 4.0039,-5.79102 4.4668,-4.04101 4.4668,-4.04297 4.4121,-2.35156 4.4141,-2.35157 4.4805,-1.16796 4.4804,-1.16602 3.8399,0.008 3.8418,0.01 3.9238,1.04492 3.9238,1.04492 3.9629,2.15625 3.961,2.15625 3.4277,3.81055 3.4258,3.8125 2.5879,5.13867 2.5898,5.14063 1.5235,5.55664 c 0.8384,3.05613 2.0843,8.81507 2.7695,12.79687 l 1.2461,7.23827 0.3398,89.73439 0.3399,89.73242 18.2343,0 18.2344,0 0,-91.3672 0,-91.36718 -0.7754,-7.89257 c -0.427,-4.34055 -1.4605,-11.54939 -2.2968,-16.01953 -0.8363,-4.47014 -2.3938,-10.81378 -3.459,-14.09766 -1.0651,-3.28393 -3.119,-8.37073 -4.5664,-11.30469 l -2.6328,-5.33398 -3.8399,-5.11133 -3.8379,-5.10938 -4.3476,-3.45117 -4.3457,-3.44922 -4.6934,-2.3125 -4.6934,-2.3125 -5.9746,-1.54297 -5.9765,-1.54493 -8.7637,-0.4375 -8.7637,-0.43944 z m -236.0195,0.18555 -5.5547,0.006 -7.4727,1.125 -7.4707,1.12695 -6.7871,2.27344 c -3.7337,1.25089 -9.2888,3.53305 -12.3437,5.07031 -3.0549,1.53725 -7.4409,4.07557 -9.7461,5.64062 -2.3053,1.56506 -6.0463,4.51426 -8.3145,6.55469 -2.2682,2.04044 -5.7825,5.70376 -7.8105,8.14063 l -3.6875,4.43164 0.01,2.43554 0.0117,2.4375 8.3926,9.90625 8.3906,9.90821 1.9511,0.24609 1.9493,0.24805 5.7402,-6.17774 5.7402,-6.17968 4.7422,-3.38282 4.7403,-3.38281 5.6699,-2.69336 5.6699,-2.6914 5.3125,-1.12695 c 2.9219,-0.61895 6.5135,-1.125 7.9805,-1.125 1.467,0 5.066,0.50626 8,1.125 l 5.3359,1.125 4.7363,2.32616 4.7364,2.32618 4.623,4.62305 4.6231,4.62304 3.3808,6.96289 3.3789,6.96484 1.5235,6.47657 1.5234,6.47851 0.7871,8.38282 c 0.4327,4.6105 0.7868,11.21204 0.7871,14.66992 l 0.002,6.28711 -10.8594,0.002 -10.8594,0.002 -10.1211,0.77149 -10.1191,0.77148 -7.7891,1.50391 c -4.2839,0.82799 -10.5316,2.38329 -13.8847,3.45703 l -6.0977,1.95312 -7.6191,3.74805 -7.6211,3.74805 -6.2676,4.96094 -6.2656,4.96289 -4.4219,5.5664 -4.4219,5.56445 -3.1426,6.07032 -3.1406,6.07226 -2.0039,6.39649 -2.0059,6.39648 -1.2148,7.66211 -1.2129,7.66211 0.3828,15.28125 0.3848,15.2793 1.9277,7.34179 c 1.0608,4.03766 2.943,9.75306 4.1817,12.70118 l 2.2519,5.35937 3.5528,5.34375 3.5527,5.34375 5.6367,5.26563 5.6387,5.26562 5.3457,2.80859 c 2.9392,1.54458 6.8209,3.34071 8.6269,3.99219 1.806,0.65146 5.512,1.66354 8.2364,2.24805 l 4.955,1.0625 10.2871,-0.29492 10.2872,-0.29492 5.9336,-1.56641 5.9335,-1.56641 5.9844,-3.11132 5.9844,-3.11329 4.6426,-4.20117 4.6426,-4.20117 4.2578,-6.40039 4.2597,-6.40039 2.4961,-6.09961 2.4961,-6.09961 0.5274,17.13086 c 0.2894,9.42196 0.7214,17.6416 0.9609,18.26562 l 0.4355,1.13477 16.3575,0 16.3574,0 -0.459,-4 c -0.2524,-2.20047 -0.8314,-9.31589 -1.2871,-15.8125 l -0.8281,-11.8125 -0.5567,-77.34961 -0.5547,-77.34961 -1.3066,-8.00195 c -0.719,-4.40093 -1.9988,-10.73589 -2.8437,-14.07617 -0.8448,-3.34028 -2.2431,-8.14033 -3.1075,-10.66797 -0.8643,-2.52763 -2.5991,-6.65315 -3.8554,-9.16797 -1.2563,-2.51482 -3.5811,-6.48359 -5.1661,-8.82031 l -2.8828,-4.25 -5.7226,-5.34375 -5.7227,-5.34571 -5.2265,-2.74609 -5.2266,-2.74609 -6.5449,-1.89649 -6.543,-1.89648 -7.3066,-0.81446 c -4.0182,-0.44805 -9.8041,-0.81301 -12.8594,-0.81054 z m -109.3379,0.75781 -5.7754,1.47656 c -3.1767,0.81246 -7.0983,2.15189 -8.7148,2.97656 -1.6165,0.82467 -5.0591,3.09265 -7.6485,5.03907 l -4.707,3.53906 -3.8125,4.79298 c -2.0972,2.63567 -5.2103,7.2115 -6.916,10.16991 l -3.0996,5.37891 -2.961,7.84375 -2.959,7.84375 -0.416,-3.38282 c -0.2282,-1.86047 -0.6139,-9.89969 -0.8574,-17.86327 -0.2436,-7.96359 -0.6446,-15.76418 -0.8926,-17.33595 l -0.4511,-2.85741 -17.8633,0 -17.8633,0 0.4355,7.42969 0.4375,7.42969 0.4317,119.83593 0.4316,119.83398 18.6172,0 0.004,0 18.6172,0 0,-67.6328 0,-67.63282 0.7988,-8.76368 0.8008,-8.76367 1.9004,-9.52733 1.9004,-9.5254 2.957,-8.86524 c 1.626,-4.87576 4.0525,-11.0481 5.3926,-13.71679 1.3401,-2.6687 3.9893,-7.17542 5.8867,-10.01563 l 3.4492,-5.16406 4.6778,-4.36328 4.6797,-4.36133 3.9707,-2.14258 3.9707,-2.14453 4.6543,-0.94922 4.6543,-0.94922 4.9082,0.70508 4.9082,0.70703 0.4043,-0.40625 c 0.2226,-0.22255 0.6014,-9.00686 0.8418,-19.52148 l 0.4394,-19.11719 -7.6172,0 -7.6152,0 z m 556.7285,31.87695 4.4336,0.90235 4.4317,0.90039 4.791,2.26368 4.791,2.26366 5.0097,4.6875 5.0118,4.6875 3.0586,4.50586 c 1.6829,2.47809 4.384,7.33058 6.0019,10.7832 1.61799,3.45262 3.9593,9.39096 5.20314,13.19728 l 2.26172,6.91991 1.8789,9.75586 c 1.03382,5.36497 2.30386,13.69753 2.82032,18.51759 l 0.9375,8.76366 0,14.85938 0,14.86132 -0.94141,8.76368 c -0.51813,4.82006 -1.62252,12.36469 -2.45508,16.76562 -0.83256,4.40093 -2.39675,11.08714 -3.47461,14.85938 -1.07779,3.77223 -3.09743,9.55919 -4.48828,12.85937 -1.3909,3.30019 -3.8882,8.27349 -5.5488,11.05078 l -3.0176,5.04883 -3.8828,4.32617 -3.8809,4.32813 -4.6387,3.0957 -4.6367,3.0957 -4.957,1.53125 -4.957,1.53125 -4.6836,-0.0508 -4.6817,-0.0508 -3.4297,-0.93359 c -1.8861,-0.51347 -5.1445,-1.77023 -7.2402,-2.79297 l -3.8086,-1.85937 -6.0976,-6.11133 -6.0957,-6.10937 -2.5391,-4.33008 c -1.396,-2.3813 -3.6911,-7.01007 -5.1016,-10.28711 -1.4105,-3.27704 -3.4604,-9.04417 -4.5547,-12.8164 l -1.9902,-6.85938 -1.8144,-10.66797 -1.8164,-10.66992 -0.8926,-12.95508 -0.8946,-12.95508 0.5215,-11.43164 c 0.2868,-6.28704 0.9997,-15.54459 1.584,-20.57422 0.5844,-5.02964 1.7656,-12.56203 2.627,-16.73828 0.8614,-4.17626 2.2467,-9.87823 3.0781,-12.66992 0.8314,-2.7917 2.5537,-7.60399 3.8262,-10.69531 1.2725,-3.09133 3.6815,-7.92718 5.3535,-10.74609 l 3.039,-5.125 4.1895,-4.5254 4.1894,-4.52539 3.6602,-2.34961 3.6602,-2.34765 4.1738,-1.43555 c 2.2951,-0.78962 5.9311,-1.6771 8.0801,-1.97266 l 3.9062,-0.53906 z m -798.1621,0.0137 5.4531,1.2461 5.4551,1.24609 4.4531,2.66602 4.4532,2.66797 4.0703,3.95703 c 2.2388,2.17592 5.364,5.84123 6.9453,8.14648 1.5813,2.30524 4.1547,6.73377 5.7187,9.8418 l 2.8438,5.65234 2.5137,7.6836 c 1.3829,4.22685 3.2114,10.94398 4.0625,14.92578 0.851,3.98179 2.1371,11.69771 2.8593,17.14648 l 1.3145,9.90625 0.0488,17.14649 0.0508,17.14648 -0.9609,8.38281 c -0.5289,4.6105 -1.8062,12.5891 -2.8379,17.73047 l -1.877,9.34961 -2.3711,7.41602 -2.3711,7.41797 -3.0586,6.0957 c -1.6823,3.35309 -4.3521,8.00074 -5.9316,10.32812 l -2.8711,4.23243 -4.7109,4.36132 -4.711,4.36329 -3.5547,1.79882 c -1.955,0.98995 -5.4187,2.35385 -7.6953,3.0293 l -4.1386,1.22656 -4.625,-0.0684 -4.6231,-0.0664 -3.4297,-0.95703 c -1.8861,-0.52566 -5.2975,-1.90624 -7.5801,-3.06836 l -4.1504,-2.11329 -4.4746,-4.26757 -4.4726,-4.26563 -3.5156,-5.28906 -3.5157,-5.28711 -2.9726,-6.89844 -2.9746,-6.89648 -2.5489,-9.94922 -2.5507,-9.94727 -1.2051,-8.65039 c -0.6635,-4.75699 -1.5556,-14.4369 -1.9805,-21.51172 l -0.7715,-12.86328 0.8028,-13.53515 0.8027,-13.53516 1.1582,-8.00195 c 0.6378,-4.40094 1.8359,-10.91586 2.6621,-14.47852 0.8261,-3.56266 2.2218,-8.70725 3.1016,-11.43164 0.8798,-2.72439 2.6328,-7.35316 3.8945,-10.28711 1.2617,-2.93396 3.7862,-7.65065 5.6094,-10.48047 1.8232,-2.82982 4.7258,-6.67512 6.4511,-8.54687 l 3.1368,-3.4043 3.9277,-2.58398 3.9258,-2.58399 4.2051,-1.55469 4.205,-1.55664 4.1778,-0.51562 4.1777,-0.51563 z m 1674.80079,7.73633 -14.1777,19.1875 -14.1797,19.1875 0,1.58594 0,1.58398 6.5469,1.69336 6.5449,1.69141 7.248,3.43359 7.25,3.4336 4.7442,3.38672 4.7461,3.38672 5.8828,6.25195 5.8828,6.2539 3.709,7.70899 3.7109,7.70898 1.3867,5.33595 1.3887,5.33397 0.01,11.8125 0.01,11.81055 -1.7402,6.47852 -1.7383,6.47656 -3.7851,7.62109 -3.7832,7.6211 -4.0215,4.93359 -4.0196,4.93359 -5.3144,4.47461 -5.3145,4.47266 -7.7285,3.7832 -7.7285,3.78125 -7.5137,1.55664 -7.5117,1.55664 -6.1934,-0.45507 -6.1914,-0.45313 -6.5976,-1.91211 -6.5957,-1.91211 -6.2578,-3.14648 c -3.4412,-1.7302 -8.6848,-4.78456 -11.6524,-6.78711 -2.9678,-2.00256 -7.5978,-5.40663 -10.289,-7.56641 -2.6911,-2.15978 -8.8941,-7.67787 -13.7852,-12.26172 l -8.8926,-8.33398 -1.3925,0 -1.3946,0 -15.0566,15.04297 -15.0586,15.04493 0,1.84375 0,1.84569 2.0293,3.4961 c 1.116,1.92293 3.9383,6.06937 6.2715,9.21289 l 4.2422,5.71484 6.4921,6.50195 6.4942,6.50391 6.7851,5.0625 6.7852,5.06445 7.0156,3.88672 c 3.8587,2.13765 10.3296,5.2398 14.3809,6.89453 4.0513,1.65473 10.6417,3.90169 14.6445,4.99219 l 7.2774,1.98242 7.373,1.00586 7.373,1.00586 8.5997,0.0781 0,0 8.5996,0.0781 7.4004,-0.8125 c 4.07,-0.44715 10.6112,-1.50397 14.5371,-2.34765 3.9259,-0.84368 9.7556,-2.38329 12.9551,-3.42188 3.1993,-1.03859 9.4174,-3.60376 13.8183,-5.69922 4.401,-2.09548 9.7168,-4.88469 11.8125,-6.19922 2.0956,-1.31452 6.5574,-4.50666 9.9141,-7.09375 l 6.1035,-4.70312 6.4707,-6.80274 6.4707,-6.80078 4.6641,-6.82812 c 2.5659,-3.75501 5.912,-9.30599 7.4336,-12.33594 1.5216,-3.02994 3.8035,-8.12265 5.0722,-11.31641 1.2688,-3.19376 3.1564,-9.07752 4.1953,-13.07617 l 1.8887,-7.26953 1.2188,-9.23047 1.2187,-9.22851 -0.4062,-13.33594 -0.4063,-13.33789 -1.4863,-6.85742 c -0.8176,-3.77223 -2.4264,-9.60199 -3.5742,-12.95508 -1.1478,-3.35309 -3.6437,-9.13086 -5.545,-12.83985 l -3.455,-6.74414 -4.4258,-6.18945 -4.4239,-6.18945 -6.3183,-6.4082 -6.3203,-6.40626 -5.7149,-4.3496 c -3.1435,-2.39215 -8.6917,-6.13529 -12.33,-8.31836 -3.6384,-2.18308 -9.8107,-5.35555 -13.7168,-7.05078 -3.9061,-1.69525 -9.6325,-3.90952 -12.7247,-4.91993 l -5.623,-1.83789 -2.1074,0 -2.1094,0 z m -1283.28519,95.25977 -0.3945,17.33594 -0.3945,17.33789 -1.2461,6.85742 c -0.6845,3.77223 -1.9523,9.77328 -2.8184,13.33594 -0.8661,3.56266 -2.7887,9.56567 -4.2715,13.33789 -1.4828,3.77223 -4.0817,9.25745 -5.7754,12.1914 l -3.08,5.33594 -5.3946,5.39648 -5.3965,5.39845 -4.955,2.40821 -4.9532,2.41015 -4.1035,0.76563 c -2.2577,0.42135 -5.1735,0.73669 -6.4785,0.69922 -1.305,-0.0375 -3.9166,-0.49804 -5.8027,-1.02149 -1.8861,-0.52344 -4.6287,-1.56569 -6.0957,-2.31641 -1.467,-0.75072 -4.235,-2.50596 -6.1524,-3.90039 l -3.4863,-2.53515 -3.2422,-4.6211 -3.2422,-4.62109 -1.7929,-4.41211 -1.793,-4.41406 -1.291,-6.36914 -1.2891,-6.36914 0.4141,-9.96875 0.416,-9.96875 1.2773,-4.57227 c 0.7022,-2.51481 2.2914,-6.6161 3.5313,-9.11523 1.2398,-2.49913 3.5153,-6.19761 5.0566,-8.21875 l 2.8028,-3.67578 4.3535,-3.41993 4.3535,-3.41992 5.5664,-2.63867 5.5684,-2.63672 5.7148,-1.45508 c 3.1435,-0.80062 8.802,-1.83461 12.5742,-2.29687 l 6.8574,-0.83985 12.4825,-0.002 12.4804,-0.002 z"
+       id="path4147"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccsccccccccccccccccccccccccccccccccccccccccccczcccccccccsccccccccccccccccccccccsccccccccccccccccccccccccsccccccccccccccccccccccccccccccscsscccccccccccccccccccccccccccccccccccccccccccccccccccccccccscccccccccccccccssccccccccccccccscsccccccsccccccccccccccsscccccscccccscccccccccccccsccccccccccccccccccccccccccccccccccccccccccccccscccccccccccccccccccscscccccccccccccccsccccccccccccccccccccccccccccccccccccccccccscccccccccccccccccccccccccccssccccccccccccscccccccccccccccccccccccccccscccccccccccccccccccccccccccccccccsccccccccccccccccccsccccccscsssccccccccccccccccscccccccccccccccccccccccccccccccccccccccccssscccccccccccccccccccccccccccccccccccccccccccccccscccccccccccccccsccccccccscsccccccscscccccsscccccccsscccccccccssccccccccsscccccccccccccccccccccccc" />
+  </g>
+</svg>
+</div></div><div id="offline-content">
+						<ul>
+	<li><a href="#GetStarted">Get Started</a></li>
+	<li><a href="#Bugfix">Bugfix Version <span class="current-version-number">1.6.3.5</span></a>
+	<ul>
+		<li><a href="#Bugfix_WhatsChanged">What's Changed</a></li>
+		<li><a href="#Bugfix_FixedBugs">Fixed Bugs</a></li>
+	</ul>
+	</li>
+	<li><a href="#Release1613">grandMA3 Version 1.6.1.3</a></li>
+	<li><a href="#Features">Features</a>
+	<ul>
+		<li><a href="#Features">​</a><a href="#Presets">Presets</a></li>
+		<li><a href="#CommandWingBar">Command Wing Bar</a></li>
+		<li><a href="#CleanUp">CleanUp Command</a></li>
+		<li><a href="#Stomp">Stomp</a></li>
+		<li><a href="#RDM">RDM</a></li>
+		<li><a href="#StageMarkers">Markers</a></li>
+		<li><a href="#BackupMenu">Backup Menu</a></li>
+	</ul>
+	</li>
+	<li><a href="#OtherEnhancements">Other Enhancements</a></li>
+	<li><a href="#WhatsChanged">What's Changed</a></li>
+	<li><a href="#FixedBugs">Fixed Bugs</a></li>
+	<li><a href="#Appendix">Appendix</a></li>
+	<li><a href="#KnownLimitations">Known Limitations</a></li>
+</ul>
+
+<hr />
+<h1 id="subH1">Release Notes 1.6.3.5</h1><div class="foldControlDiv"></div><div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+<h2><a id="GetStarted" name="GetStarted"></a>Get Started</h2><div class="foldingContainer">
+
+<p>Do you need help getting started in grandMA3? Perfect - here we describe a few quick steps to get you rolling. The manual will explain functionality in detail while the MA e-Learning within the MA University offers you all kinds of training. All information can be accessed through the MA Lighting website&nbsp;www.malighting.com.</p>
+
+<p>Let´s go! Once you leave the Release Notes by tapping&nbsp;<span class="softkey">I agree</span>&nbsp;on the top right corner, you get presented with the main screen of grandMA3 software. On the right side, you can see predefined views. By tapping the view buttons you can switch between them.&nbsp;</p>
+
+<p>If this is your first time starting grandMA3 software you need to patch some fixtures first to get started. Or you can load one of the demo shows delivered with the software. In both cases, you need to press&nbsp;<span class="hardkey">Menu</span>&nbsp;key. If you are using grandMA3 onPC software there is a&nbsp;<img alt="gear" src="../../../img/release_notes/gear_1.png" />&nbsp;symbol in the top left corner. Clicking&nbsp;the symbol is the same as pressing the&nbsp;<span class="hardkey">Menu</span>&nbsp;on a console.</p>
+
+<p>Hit&nbsp;<span class="softkey">Backup</span>, and tap&nbsp;<span class="softkey">Load</span>&nbsp;in the pop-up menu.&nbsp;Now you are ready to load shows. As you want to get started quickly you should change in the header bar from&nbsp;<span class="softkey">Shows</span>&nbsp;to&nbsp;<span class="softkey">Demo Shows</span>&nbsp;by tapping the button repeatedly. Once it says&nbsp;<span class="softkey">Demo Shows</span>&nbsp;you can choose any of them by double-clicking on it or selecting it and then tap&nbsp;<span class="softkey">Load Show</span>. Just in case there was a show loaded already the software will ask you if want to save the current show first before loading the new one... your choice ;-)</p>
+
+<p>Here we go! Now you are ready to work with the grandMA3 software. It is as easy as that! Again - on the right side are the view buttons to change screen content. At the bottom, you find the encoder bar and the command line. Technically that is all you need to get started. For more detailed information, refer to the grandMA3 help menu which you can reach by one of the view buttons named&nbsp;<span class="softkey">Help</span>&nbsp;or via the&nbsp;MA Lighting website. If you want to learn grandMA3 software step by step please join the MA e-Learning - it's free of charge and available via the&nbsp;MA Lighting website.</p>
+
+<p>Have fun with the grandMA3 software - next, you will find all the improvements and changes of this software version.</p>
+
+<div class="tip"><strong>Hint:</strong><br />
+The grandMA3 software will start with the show file (or status) that was active when the software was closed.&nbsp;</div>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- foldingContainer --><h2 class="noFold"><a id="Bugfix" name="Bugfix"></a>Bugfix Version <span class="current-version-number">1.6.3.5</span></h2>
+
+<h2><a id="Bugfix_WhatsChanged" name="Bugfix_WhatsChanged"></a>What's Changed</h2><div class="foldingContainer">
+
+<ul>
+	<li>Executor labels that are not at 0% or at 100% display now a value of at least 1% or 99%.</li>
+	<li>The SequenceMode in the update menu is reset to All for all user profiles when loading a show file the first time in this version.</li>
+</ul>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- foldingContainer --><h2><a id="Bugfix_FixedBugs" name="Bugfix_FixedBugs"></a>Fixed Bugs</h2><div class="foldingContainer">
+
+<h3>3D</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>On Apple M1 systems all beams were flickering if a dimmer phaser was running on some of them. This bug is fixed. Beams on Apple M1 systems do not flicker if a dimmer phaser is running.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Command Line and Macro</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>When changing the patch by e.g., adding or deleting fixtures, existing worlds were reset to have all fixtures included. This bug is fixed. Worlds are not changed anymore when changing the patch.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when editing the time position of a marker in a timecode show using a plugin. This bug is fixed. The software does not crash anymore when changing the position of a marker.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when moving an executor or Xkey. This bug is fixed. Moving executors or Xkeys does not crash the console anymore.</td>
+		</tr>
+		<tr>
+			<td>Loading a show file from v1.5 or prior could crash the software. This bug is fixed. Loading show files from older software versions does not crash the software anymore.</td>
+		</tr>
+		<tr>
+			<td>Global presets could not always be called for all subfixtures of the same geometry. This bug is fixed. All subfixtures using the same geometry can use the same global presets again.</td>
+		</tr>
+		<tr>
+			<td>The functionality of some hard keys within popups was blocked when using hard keys&nbsp;before in combination with <span class="hardkey">MA</span> and releasing <span class="hardkey">MA</span> first. This bug is fixed. The hard keys should now always work in pop-ups.</td>
+		</tr>
+		<tr>
+			<td>Deleting an executor where the originally used executor configuration was resized after creating the executor deleted also the next executors. This bug is fixed. Resizing an executor configuration when it is already in use does not influence further actions with executors anymore.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when moving a layout element from one layout to another layout or oopsing this action. This bug is fixed. Moving layout elements into a different layout or oopsing this does not crash the software anymore.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when turning the encoder of an attribute where the default was set to a value that was not covered by the defined ranges of its channel functions. This bug is fixed. The software does not crash anymore when the default value of an attribute is not part of the value range of its channel functions and the encoder will be turned for it.</td>
+		</tr>
+		<tr>
+			<td>When loading show files from v1.5 or prior including global presets where different modes of a fixture type were stored, the global data of only one mode was correctly migrated. This bug is fixed. Individual global values within a preset of different modes of the same fixture type are now migrated correctly into v1.6.</td>
+		</tr>
+		<tr>
+			<td>Selective phaser presets that had global presets integrated lost their reference to the integrated presets when one of the integrated presets was updated. This bug is fixed. Updating presets that are integrated into other presets do not remove the reference in the other preset anymore.</td>
+		</tr>
+		<tr>
+			<td>A preset could lose its reference to another preset when the source preset would be moved. This bug is fixed. Moving a preset does not lose its references anymore.</td>
+		</tr>
+		<tr>
+			<td>Deleting the cue that holds the same data before a cue that has the same data blocked, kept the block status of the second cue. This bug is fixed. Deleting cues checks now the block status of the following cues and resolves them if necessary.</td>
+		</tr>
+		<tr>
+			<td>Storing a new cue with the same data in front of an existing cue did not block the data in the already existing cue. This bug is fixed. Adding cues in front of existing cues checks now if blocking is needed and blocks it then.</td>
+		</tr>
+		<tr>
+			<td>Blocking a cue that tracks phasers created a new cue part. This bug is fixed. When blocking a cue with phaser data, the values will be blocked correctly in their original cue part.</td>
+		</tr>
+		<tr>
+			<td>It was possible to create executors that did not interact with all commands. This bug is fixed. It is not possible anymore to create executors that are not fully functional.</td>
+		</tr>
+		<tr>
+			<td>Moving an open range of cues, e.g., Move Cue 1 Thru At Cue 501, made it impossible to move the first cue of this range later again. This bug is fixed. Moving an open range of cues does not prevent anymore the first cue of the range to be moved later again.</td>
+		</tr>
+		<tr>
+			<td>It was possible to move a special executor to a normal executor. This bug is fixed. Special executors cannot be moved anymore.</td>
+		</tr>
+		<tr>
+			<td>The automatic blocking of attributes did not work correctly when storing a second cue, and the first fixture of the selection did not have all attributes that should be stored active. This bug is fixed. The automatic blocking when storing or updating a cue works now with all combinations of fixture selection and attributes.</td>
+		</tr>
+		<tr>
+			<td>Storing a fixture at the same level as the previous cue did not block the cue correctly if the previous cue had tracked data for the attribute. This bug is fixed. When storing a cue the automatic blocking works now also when the previous cue had only tracked data.</td>
+		</tr>
+		<tr>
+			<td>The software crashed when oopsing the copy and paste of timecode events. This bug is fixed. Oopsing the copy and paste of timecode events should not crash the software anymore.</td>
+		</tr>
+		<tr>
+			<td>Activating the timecode setting <span class="softkey">Ignore Follow</span> recorded again timecode events when the timecode show was passing by already recorded timecode events. This bug is fixed. Existing timecode events are not recorded anymore into timecode shows.</td>
+		</tr>
+		<tr>
+			<td>Storing into a preset with the /Remove option did not remove relative values from the preset when relative values were active, but set the relative value to 0. This bug is fixed. Store with the use of the /Remove option removes now also relative values from presets.</td>
+		</tr>
+		<tr>
+			<td>Unblocking a cue did not remove preset references for the attributes that used presets. This bug is fixed. Preset references are now removed when unblocking cues that use presets.</td>
+		</tr>
+		<tr>
+			<td>Storing a stomped attribute into a cue where a preset reference was already stored for the attribute did not remove the preset reference for this attribute. This bug is fixed. Storing a stomped attribute with a hard value into a cue removes now also the preset reference for the attribute within the cue.</td>
+		</tr>
+		<tr>
+			<td>Stomp could sometimes keep a preset reference&nbsp;to the first step of the other layer of a multi-step preset which could result in storing a reference to the wrong information. This bug is fixed. Stomp will now try to link to a single-step preset or use hard values.&nbsp;&nbsp;</td>
+		</tr>
+		<tr>
+			<td>Knocking-in an attribute with a hard value that was already played back by a cue with a preset, knocked in the preset reference from the cue. This bug is fixed. It should not be possible anymore to store a hard value with a preset reference into a cue.</td>
+		</tr>
+		<tr>
+			<td>Editing an attribute in the sequence sheet in track sheet mode and changing from a hard value to a preset did not set the block state correctly. This bug is fixed. Editing values in the tracking sheet now updates the block states correctly.</td>
+		</tr>
+		<tr>
+			<td>When cloning, the system created new phasers in the background. This bug is fixed. Cloning does not create new phasers in the phaser engine anymore.</td>
+		</tr>
+		<tr>
+			<td>It could happen that the ABS and/or REL layer values in a cue or embedded preset were overwritten when&nbsp;only one layer was referencing a preset that contained values for both layers. This bug is fixed. The preset update process will correctly keep the layers separated when updating the referenced values.</td>
+		</tr>
+		<tr>
+			<td>It was not possible to store merge into several cues, that were specified by using + within the command, e.g., Store Cue 1 + 2 /Merge. This bug is fixed. It is possible again to store merge into several cues by using + to specify the cues.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when cooking recipes. This bug is fixed. The software should not crash anymore when cooking recipes.</td>
+		</tr>
+		<tr>
+			<td>Cooking a recipe that had a group with more fixtures assigned, than the assigned selective preset had stored, created unwanted data for the fixtures that were part of the group, but were not part of the preset. This bug is fixed. Cooking a recipe that has different fixtures in the used group and the used preset creates only data for the fixtures that are part of both, the group and the preset.</td>
+		</tr>
+		<tr>
+			<td>The software could freeze when the user tried to set a cue fade time to a range of cues, and the range included the OffCue. This bug is fixed. Addressing a range of cues with the OffCue included does not freeze the software anymore.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Connections</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The DMX input merge was only processed on the global master station after another device joined the session. This bug is fixed. DMX input merge works now correctly after devices joined the session.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Patch</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The software could freeze when having the patch open in split view mode and then trying to open the patch again on a second display. This bug is fixed. Trying to open the patch a second time should not freeze the software anymore.</td>
+		</tr>
+		<tr>
+			<td>When leaving the patch and applying changes, the preset modes of all preset pools were reset to the defaults of a new show. This bug is fixed. The preset modes are now preserved when leaving the patch and applying changes.</td>
+		</tr>
+		<tr>
+			<td>The software could crash if a geometry reference of a fixture type was not linked to any geometry. This bug is fixed. Geometry references without a link to a geometry do not crash the software any longer.</td>
+		</tr>
+		<tr>
+			<td>Exchanging a single-instance fixture to a multi-instance fixture type did not convert global presets correctly. This bug is fixed. Global presets are now converted correctly when exchanging the fixture type of relevant fixtures from single-instance to multi-instance.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when copying and pasting a fixture within the patch. This bug is fixed. Copy and paste of fixtures within the patch menu should not crash the software anymore.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Playback</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The output level of sequences could be changed to 0 when updating a preset. This bug is fixed. Updating a preset should not change the output of an unattended sequence to 0 anymore.</td>
+		</tr>
+		<tr>
+			<td>It could happen that a DMX universe did not recognize the change of values at the first cycle and therefore did not send out the changes immediately. This bug is fixed. DMX universes have been further optimized for value changes and output changes immediately.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>The playback of a timecode show was not triggering the playbacks correctly when the user profile which recorded the events did not exist anymore. This bug is fixed. Timecode shows generate always the correct playback, even when user profiles were deleted.</td>
+		</tr>
+		<tr>
+			<td>A sequence that was already triggered by a timecode was switched off when the incoming timecode signal was lost and reappeared during the After Roll time with a previous time again. This bug is fixed. Restarting the timecode sender does not switch off sequences anymore when the signal is coming back during the After Roll timeout.</td>
+		</tr>
+		<tr>
+			<td>Disabling the timecode setting <span class="softkey">Assert Previous Events</span> still turned off the sequence when no previous events were found. This bug is fixed. Only when <span class="softkey">Assert Previous Events</span> is enabled will the software turn off the sequence when no previous events are found.&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Windows</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The fixture sheet did not display the phase and speed values on fixtures when the phaser was operated by a sequence. This bug is fixed. The phase and speed values of played back phasers are now displayed within the fixture sheet.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when opening a sequence sheet or when editing a sequence. This bug is fixed. Opening the sequence sheet does not crash the software anymore.</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --></div> <!-- foldingContainer --><h2 class="noFold"><a id="Release1613" name="Release1613"></a>grandMA3 Version 1.6.1.3</h2>
+
+<h2><a id="Features" name="Features"></a>Features</h2><div class="foldingContainer">
+
+<p>The latest release of grandMA3 version 1.6.1.3&nbsp;rolls out several enhancements that enrich your lighting experience. Read on for a quick introduction and find links for more information.</p>
+
+<hr />
+<h3><a id="Presets" name="Presets"></a>Presets</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>Global data has been streamlined to make it easier for the user to manage. The global data is now stored on real fixtures within the patch. In addition, universal presets can now reference data stored to a real fixture patched within the show file.</p>
+
+<p>When storing new global presets, the global data will be created within the new preset automatically. When all data for the fixture type is the same, the first fixture from the stored data will be used to hold the global data within the preset. Each fixture type gets its own global data value so that you can adjust the global value per fixture type.</p>
+
+<p>When adding selective data to the preset for one of the fixtures that hold the global data, or when deleting the fixture from the show, the global data will be moved to the first patched fixture for the fixture type. In the case that the global data was held before by the first fixture, the data will be moved to the next patched fixture of this fixture type.</p>
+
+<p>When editing a preset with global data, the fixtures with the global data in the programmer will display a yellow square marker in the top right corner of the attribute cell within the fixture sheet.</p>
+
+<div class="important"><strong>Important:</strong><br />
+When converting old show files from grandMA3 v1.5 or prior to grandMA3 v1.6 or later the data from the global fixture type object will be migrated to the first patched fixture of the same fixture type that is not already holding selective data.</div>
+
+<p>The global value is determined by the average across all values of attributes within the same activation group:</p>
+
+<pre>
+(Value of fixture 1 + Value of fixture 2 + Value of fixture 3 + ... value of fixture n) / Number of used fixtures = Average value</pre>
+
+<p>The value that is closest to the calculated average value will be the global value. The fixture with this value will then hold the global value. In the case of color, all color attributes are handled together when choosing the global value.</p>
+
+<p>Furthermore, the method to determine the global data across several attributes is now taking all attributes of the same activation group into account. This will result in taking all attributes of the same activation group of one fixture, and not taking the different attributes from different fixtures.</p>
+
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+<p>Together with the new global data handling, the preset modes for storing or updating were improved:</p>
+
+<ul>
+	<li>Auto: When updating or storing into an existing preset, the preset mode of the preset will be respected. In the case of global preset mode, selective data will be added to the preset when at least one fixture that can use the preset is active with new values. When creating a new preset Auto mode will take the mode defined by the pool and use the rules described here for each mode.</li>
+	<li>Selective: The data will be added as selective data for each fixture that has active data in the programmer.</li>
+	<li>Global: The data will be added mainly as global data. If there are several fixtures of the same fixture type but with different values, then the global data will be determined by average as described above, and selective data will be added for the other fixtures which have divergent data.</li>
+	<li>ForceGlobal: Data will be added as global data, and untouched existing selective data will be discarded within the preset for the fixtures of the same fixture type. ForceGlobal will discard the selective data when updating a preset or when storing with the merge option into an existing preset.</li>
+	<li>Universal: Data will be added as global data, and the PresetMode will be set to Universal.</li>
+</ul>
+
+<p>The universal preset gets more versatile and can now use the data from a real fixture with global values when the universal fixture has no data inside the preset. This has the added benefit that you can create your universal presets using a real fixture from your stage, in the case that the universal fixture has these attributes. When calling a universal preset, the software uses global fixture type data first and then uses the data from the universal fixture. When no data exists for the universal fixture the first fixture with global data is used instead.</p>
+
+<div class="tip"><strong>Hint:</strong><br />
+When calling universal color, it will be transformed through the color engine. If you use a 7-color LED to create a color and call that data universal, you will get the similar color on the RGBA fixture.</div>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;New in this release</p>
+
+<p>When the same fixture type (attributes, their order, and their physical from and physical to values) is used several times within a show file, the patched fixtures of these fixture types can now use the global presets that are only stored for one of these fixture types. Therefore, the new fixture type property Share Global needs to be set to Yes for the fixture types. Share Global is set to Yes by default.</p>
+
+<p>The fixtures of the fixture type that are set to No cannot call global presets that will be created or modified later by using the other fixture type. When switching Share Global to No when there are already global presets for the fixtures of the fixture type that could use data from a different fixture type, the presets will get copied the global value from the original fixture type to the fixture type that has now Share Global set to No.</p>
+
+<div class="tip"><strong>Hint:</strong><br />
+To break up the usage of global presets by fixtures of the other but similar fixture type, the Share Global property needs to be set to No for the fixture type that should not be allowed to use the global presets. Switching Share Global to No for the fixture type of fixtures that hold the global value will not influence the preset call ability of the other fixture types.</div>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;New in this release</p>
+
+<p>When exchanging the fixture type of a fixture, the data within the global presets will now be converted so that the fixtures with the new fixture type can immediately use these global presets, too.</p>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>The update menu and the store preset pop-up have now also&nbsp;<span class="softkey">PresetMode</span>&nbsp;buttons.<br />
+<span class="softkey">PresetMode</span>&nbsp;within the update menu is independent of the&nbsp;<span class="softkey">PresetMode</span>&nbsp;within the store settings.<br />
+<span class="softkey">PresetMode</span>&nbsp;within the store preset pop-up populates the value of the store settings and can be changed temporarily for only this certain store action. After that it will fall back to the value of the store settings.</p>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>The title pool objects of preset pools display now on their upper right corner an S, G, or U depending on the preset mode of their feature group. This preset mode will be mainly taken when storing new presets into that pool by using the preset mode Auto.</p>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --><h3><a id="CommandWingBar" name="CommandWingBar"></a>Command Wing Bar</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;New in this release</p>
+
+<p>The Command Wing Bar window can be opened by tapping <span class="softkey">More</span>, and then <span class="softkey">Command Wing Bar</span> within the Add window dialog.<br />
+It&nbsp;provides access to the encoder bar, the first ten executors of the selected WingID, the grand master, and the special executor section of wing 1.</p>
+
+<p>In the command wing bar window settings, it is possible to display or hide the grand master by tapping <span class="softkey">Show Grand Master</span>. The same procedure is available for the special executor section by tapping <span class="softkey">Show Master Section</span>. Furthermore, with the settings <span class="softkey">Display Mode Executors</span> and <span class="softkey">Display Mode Masters</span> can be decided if the labels or the hardware buttons of the executors should be displayed.</p>
+
+<p>The displayed <span class="softkey">Page</span> and <span class="softkey">WingID</span> can be selected via the settings pop-up or the title bar.</p>
+
+<p>The Command Wing Bar can also be displayed in the encoder bar area on onPC systems. Simply tap <img alt="" src="../../../img/release_notes/icon_commandwingbar_15_v1_6.png" />&nbsp;in the control bar to display or hide it. Or use the shortcut <span class="hardkey">Alt</span> + <span class="hardkey">W</span>.</p>
+
+<hr />
+</div> <!-- subFoldingContainer --><h3><a id="CleanUp" name="CleanUp"></a>CleanUp Command</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp; New in this release</p>
+
+<p>The CleanUp command allows deleting unused (contains no reference) objects in the show file. For example, sequences that are not assigned to an executor. A pop-up asks the user for confirmation to delete the unused objects and it tells the user how many objects will be deleted.</p>
+
+<ul>
+	<li>To delete all unassigned sequences, type:</li>
+</ul>
+
+<div class="cl_input">User name[Fixture]&gt; Cleanup Sequence Thru</div>
+
+<ul>
+	<li>To delete all unused color presets in the color preset pool, type:</li>
+</ul>
+
+<div class="cl_input">User name[Fixture]&gt; Cleanup Preset 4.*</div>
+
+<ul>
+	<li>To delete all images which have no reference, type:</li>
+</ul>
+
+<div class="cl_input">User name[Fixture]&gt; Cleanup Image 3.1 Thru</div>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --><h3><a id="Stomp" name="Stomp"></a>Stomp</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>Stomp now knocks in the last used single-step value for the absolute and/or the relative layer of the attribute.<br />
+This can be a value from the programmer or from a playback. If no single-step value is found then it uses the default value.</p>
+
+<hr />
+</div> <!-- subFoldingContainer --><h3><a id="RDM" name="RDM"></a>RDM</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>The RDM implementation in grandMA3 supports now more RDM parameters. These are the newly supported RDM parameters:</p>
+
+<ul>
+	<li>PROXIED_DEVICES, 0x0010</li>
+	<li>PROXIED_DEVICE_COUNT, 0x0011</li>
+	<li>DEVICE_MODEL_DESCRIPTION, 0x0080</li>
+	<li>LANGUAGE_CAPABILITIES, 0x00A0</li>
+	<li>SOFTWARE_VERSION_LABEL, 0x00C0</li>
+	<li>BOOT_SOFTWARE_VERSION_ID, 0x00C1</li>
+	<li>BOOT_SOFTWARE_VERSION_LABEL, 0x00C2</li>
+	<li>SLOT_INFO, 0x0120</li>
+	<li>SLOT_DESCRIPTION, 0x0121</li>
+	<li>DEFAULT_SLOT_VALUE, 0x0122</li>
+	<li>SENSOR_DEFINITION, 0x0200</li>
+	<li>SENSOR_VALUE, 0x0201</li>
+	<li>DEVICE_HOURS, 0x400</li>
+	<li>LAMP_HOURS, 0x401</li>
+	<li>LAMP_STRIKES, 0x402</li>
+	<li>LAMP_ON_MODE, 0x404</li>
+	<li>DEVICE_POWER_CYCLES, 0x405</li>
+	<li>PAN_TILT_SWAP, 0x602</li>
+	<li>POWER_STATE, 0x1010</li>
+</ul>
+
+<div class="important"><strong>Important:</strong><br />
+Not all of these RDM parameters allow the user to set values for them.</div>
+
+<p>&nbsp;</p>
+
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+<p>As SENSOR_DEFINITION and SENSOR_VALUE are now supported, the RDM Fixtures display the sensors with their values within the RDM Devices Window. To watch the sensors and their values, unfold the desired RDM fixture by tapping&nbsp;<img alt="" src="../../../img/release_notes/triangle_right_15_1.png" />&nbsp;in front of the RDM fixture.<br />
+For each sensor, an own line will be displayed as child of the RDM fixture. In most cases, the user has to scroll to the right to see the columns Present Value, Lowest, Highest, and Recorded:</p>
+
+<ul>
+	<li>Present Value: The current value of the sensor.</li>
+	<li>Lowest: The lowest value the sensor can reach.</li>
+	<li>Highest: The highest value the sensor can reach.</li>
+	<li>Recorded: The value that was stored by the fixture itself, when RECORD_SENSORS, 0x0202 was executed.</li>
+</ul>
+
+<div class="tip"><strong>Hint:</strong><br />
+RECORD_SENSORS needs to be executed by a different RDM controller in order to display a value.</div>
+
+<p>&nbsp;</p>
+
+<p>grandMA3 can now also deal with RDM proxy devices, such as radio DMX links. The RDM parameters PROXIED_DEVICES, 0x0010 and PROXIED_DEVICE_COUNT, 0x0011 are responsible for this feature. A proxy device, in our case of a radio DMX link, is the transmitting device. This device will also show up in the RDM Devices window. The number within the column Proxied Devices reports how many RDM devices are handled by this device. The receiver of the radio DMX/RDM signal counts also into this number.</p>
+
+<div class="important"><strong>Important:</strong><br />
+In our tests, we were only able to get RDM devices working that were connected to a corresponding radio DMX receiver device.<br />
+Fixtures that were directly linked to the radio DMX transmitter, because these fixtures have a built-in radio DMX module, were not detected. Also not by other 3rd party RDM controllers.</div>
+
+<p>To learn more about using RDM within the grandMA3 software, please read the <a href="../key_rdm.html">RDM topic</a>.</p>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --><h3><a id="Markers" name="Markers"></a>Markers</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;New in this release</p>
+
+<p>A marker&nbsp;is a virtual fixture, that allows operating (e.g., moving around or rotating) objects such as fixtures, actors, or stage props in the 3D stage environment.</p>
+
+<p>To do so, for each object or group of objects that shall be operated separately an own marker fixture needs to be patched. A fixture type called Marker from the Manufacturer MA Lighting is now part of the fixture library.<br />
+As soon as a marker fixture is patched, other patched fixtures can be added as children of the marker.<br />
+After applying these changes to the patch, the marker fixture can be operated like any other fixture in the show.</p>
+
+<p>At the moment, a marker fixture provides these attributes:</p>
+
+<ul>
+	<li>X, Y, and Z for moving the marker and all its children together along the corresponding axes.</li>
+	<li>Rot X, Rot Y, and Rot Z rotate the marker and all its children together around the corresponding axes.</li>
+</ul>
+
+<p>These attributes are located within the features <span class="softkey">XYZ</span> and <span class="softkey">Rotation</span> within the feature group <span class="softkey">Position</span> in the encoder bar.</p>
+
+<p>Select the marker fixture and turn the encoders for the described attributes in order to see the marker and its children moving around in the 3D window.<br />
+The children of a marker are always moved around relative to the set up position of the marker itself.</p>
+
+<div class="important"><strong>Important:</strong><br />
+A marker fixture needs to have a DMX address patched in order to be able to see its changes within the 3D, etc.</div>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>Together with the implementation of markers, the input of PSN trackers can be linked to markers. This allows moving around the marker and its children via an external tracking system.</p>
+
+<p>To do so, set up the number of markers you need, add the desired children to them within the grandMA3 software. Then set up the PSN system and configure the <a href="../key_remote_inputs_psn.html">PSN input</a> within the grandMA3 software. Within the PSN menu, new columns called IDType and ID allows entering the IDType and ID of the marker fixture that shall be linked to the input of each tracker.<br />
+The column DMX Priority defines at which level of the grandMA3 playback priorities the PSN data shall be processed. This allows overwriting the input of the PSN system by using a sequence with a higher priority if needed.</p>
+
+<div class="important"><strong>Important:</strong><br />
+The DMX universes the marker fixtures are patched to which are receiving data from PSN trackers need to be set to the <a href="../key_patch_dmx_universe.html">merge mode Prio</a>.</div>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --><h3><a id="BackupMenu" name="BackupMenu"></a>Backup Menu</h3><div class="subFoldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Improved in this release</p>
+
+<p>Show files are now saved with the timestamp of the current session time. The resulting files on the hard drive of the system will be also stamped using the current session time.</p>
+
+<p>&nbsp;</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;New in this release</p>
+
+<p>At the bottom of the backup menu, an area allows you to enter and read the description of the currently loaded show file. Modifying or entering a description will only be applied to the show file when saving it afterward.<br />
+Pressing&nbsp;<span class="hardkey">Enter</span>&nbsp;while editing the description immediately saves and closes the backup menu.&nbsp;<span class="hardkey">Shift</span>&nbsp;+&nbsp;<span class="hardkey">Enter</span>&nbsp;can be used to add another line.</p>
+
+<p>By enabling <span class="softkey">History</span> in the title bar of the backup menu, the history of the selected show file will be displayed at the bottom of the backup menu.<br />
+The history gives useful information regarding the dates and time, used software version, the type of the software, the name, time zone, and UTC time when saving the show file.<br />
+A new entry within the history will be entered when the show file will be saved again and one of these criteria has changed: Version, type, name, time zone, or description. The newest entry will be on top of the history list.</p>
+
+<p>The option&nbsp;<span class="softkey">Enumerate Show File Name when Description Changes</span>&nbsp;in the&nbsp;<span class="softkey">Settings</span>&nbsp;of the backup menu provides an automatic increase of a 3 digit number, added to the end of the show file name if the description is changed when saving the show.<br />
+If the original show file name is too long to add the number, the command line will return an error. In this case, the former show file name will be used again.</p>
+
+<p>Enumerate is always looking at the last three characters of the show file name. When three numbers are found it increases the number by 1. When 999 is found, it will change the number to 001.&nbsp;</p>
+
+<p>Enumerating a show file can also be called with the /Enumerate option. To do so, type:</p>
+
+<div class="cl_input">User name[Fixture]&gt; SaveShow /Enumerate</div>
+
+<div class="tip"><strong>Hint:</strong><br />
+When saving your show file for the first time, add a custom character to the end of your show file name so it's easier to see the enumeration (e.g. ShowName# or ShowName_v or ShowName-)</div>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --></div> <!-- foldingContainer --><h2><a id="OtherEnhancements" name="OtherEnhancements"></a>Other Enhancements</h2><div class="foldingContainer">
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The network menu allows filtering stations by "My Location".</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Reduced show upload time by transferring media objects in the background.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The "Insert New Fixtures" dialog now allows simultaneous access to the grandMA3 Fixture Share and the GDTF Share. Therefore, the <span class="softkey">GDTF Share</span> tab is renamed to <span class="softkey">Shares</span>. The column "Source" indicates from which of the two Share sites the fixture originates.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The label process prevents entering system reserved characters when the label pop-up is used. In this case, the title bar of the label dialog turns for about 2s into orange and displays "Character '.' not allowed." Depending on the character the message might be different, as every character that is not allowed but was pressed by the user will be reported within this message.<br />
+When labelling an object by using the label command, the disallowed characters will be removed by the software, and the objects gets a new label with this reduced name:</p>
+
+<p>Labeling group 1 with the desired name "Back.Truss" by using this command, will result in the name "BackTruss" for group 1:</p>
+
+<div class="cl_input">User name[Fixture]&gt; Label Group 1 "Back.Truss"</div>
+
+<p>In this case, the command line history will report this modification as well:</p>
+
+<div class="cl_response">Not allowed characters in name "Back.Truss" changed to "BackTruss"</div>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The operation of encoders in physical readout (includes also attributes in natural readout that are set to physical for the natural readout) when having at minimum 2 fixtures of different fixture types selected, improved. In this case, stepping through the selection with <span class="hardkey">Next</span> and <span class="hardkey">Previous</span>&nbsp;now also uses always the smallest physical range to determine the size of an encoder click. In previous versions the size of an encoder click changed between the different fixtures of the different fixture types when using <span class="hardkey">Next</span> and <span class="hardkey">Prev</span>.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Master faders in the executor label now display their temporary value while flashing or blacking them. Furthermore, the background of the fader bar in the executor label turns red while flash or black, when the value of the master fader is different to the value during flash or black.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The playback window has now a setting that allows how many sections of each 5 faders shall be displayed. To change this setting, tap <span class="softkey">MA</span> in the top left corner of the playback window, then tap <span class="softkey">#Sections</span>&nbsp;repeatedly until the desired value is set. The value can be set to Auto, 1, 2, or&nbsp; 3. When set to Auto, the playback window decides by its size how many sections will be displayed. This is anyway how it worked in previous versions. When choosing 1, 2, or 3, the first 5, 10, or 15 faders of the selected WingID will be displayed. This happens independently from the size of the playback window.</p>
+
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Tapping <img alt="" src="../../../img/release_notes/icon_power_15_v1-0_1.png" />&nbsp;within the control bar opens now the new shutdown menu. It offers to</p>
+
+<ul>
+	<li><img alt="" src="../../../img/release_notes/icon_power_15_v1-0_1.png" />: To shutdown the grandMA3 device or to close the grandMA3 onPC software.</li>
+	<li><img alt="" src="../../../img/release_notes/icon_refresh_arrow_15_v1_5_1.png" />: To restart the grandMA3 application.</li>
+	<li><img alt="" src="../../../img/release_notes/icon_padlock_15_v1-0_1.png" />: To lock the desk.</li>
+</ul>
+
+<p>In addition to this improvement, the Desk Lock button has been removed from the control bar.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The new timecode show setting <span class="softkey">Ignore Follow</span> allows controlling whether follow cues of sequences should be triggered by the timecode show or by the sequence. When it is off, the follow cues will be triggered by the timecode show.<br />
+When it is on, the sequence will trigger its follow cues. In this case the events within the timecode show for the follow cues will be marked with a&nbsp;prohibition sign on top of the event icon within the timeline view.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;Move of executors:</p>
+
+<ul>
+	<li>Moving executors behave now like moving objects within a pool. For executors, each Wing (15 executors) behaves like a pool.</li>
+	<li>Moving an executor that is 2 or more wide to a different executor, in a way, that the former executor would be spread across 2 banks (5 executors), the executor will be split into 2 executors, one each on one of the banks. In the past, the executor has been scaled down to only use the executors of the left bank. This works only across the banks of the same wing, and not across wings.</li>
+</ul>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The conversion of channel functions has been improved in the grandMA2 to grandMA3 Show Converter. In the grandMA2 the non-linear physical characteristic of channel functions was described within the physical values of the channel sets. This could cause unexpected behavior of the encoders in natural and physical readout because of the channel function's invalid range of physical values. The conversion has been improved to the extend that converted channel functions now have a valid range of physical values according to their channel sets.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;3D Window: Additional mesh qualities for the <span class="softkey">BodyQuality</span> setting were added.</p>
+
+<ul>
+	<li><strong>None:</strong>&nbsp;No meshes of fixtures are visualized. Nevertheless, environment objects are displayed.</li>
+	<li><strong>Box:</strong>&nbsp;A whole fixture's body is visualized as one box. This box has the dimensions of the fixture.</li>
+	<li><strong>Low:</strong>&nbsp;Every geometry of a fixture is visualized as a box. If one of the fixture's meshes is a default cylinder, this is not changed.</li>
+	<li><strong>Simple:</strong>&nbsp;Fixtures with a common geometrical structure of a moving head (Base - Yoke - Head - Lens with or without Pigtail) are visualized with grandMA3 default meshes. All other fixtures are visualized like in "Low" mode.</li>
+	<li><strong>Standard:</strong>&nbsp;Fixtures with a vertex count above 1 200 are visualized as in "Simple" quality mode. The meshes of fixtures with a vertex count lower than 1 200 are not changed.</li>
+	<li><strong>High:</strong>&nbsp;All fixtures are displayed with their original meshes.</li>
+</ul>
+
+<p>By default, the <span class="softkey">BodyQuality</span>&nbsp;is set to Standard.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;Surfaces has been renamed to Stage Volumes: A stage volume is a defined space within a stage. By default, a volume (Volume 1) always exists, and its size is always the size of the stage.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;The assign menu allows now to lock or unlock the executor by tapping <span class="softkey">Lock Exec</span> in the title bar. When locking ur unlocking the executor via the lock or unlock command, this button reflects also the correct state.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;When an event will be repeated every year, the repeat cell of the event displays now in addition "repeat annually" to indicate this repetition.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;When creating a new show, the software will now create a prompt asking the operator now if a new show should really be created.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_arrow_up_right_v0-9.png" />&nbsp;When canceling a store operation the next time doing a store operation the store preferences are loaded again. In addition, pressing ESC once when the store options overlay is open, closes now the overlay. Store and Update work now uniformly regarding closing the menus or canceling the operation.</p>
+
+<p><img alt="" src="../../../img/release_notes/icon_plus_v0-9.png" />&nbsp;Fixtures that are modified by a additive group display now also a marker in their ID type cell within the fixture sheet. The color of the marker is lavender by default, and can be changed in the color theme: Color definition SheetColor.AdditiveMasterActive and color FixtureSheetCell.AdditiveMasterActive.</p>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- foldingContainer --><h2><a id="WhatsChanged" name="WhatsChanged"></a>What's Changed</h2><div class="foldingContainer">
+
+<ul>
+	<li>The ListRef button in the Update Window was removed as it is obsolete now.</li>
+	<li>The automatic label functionality of cues changed and does not use the commas (,) anymore to separate different presets within the name. It uses now the slash (/) to separate presets within the cue name.</li>
+	<li>The first element within the cue list on an executor label shows now always the previous cue of the sequence order, ad not anymore the previous played back cue.</li>
+	<li>The fixture sheet has now an additional title bar button for the <span class="softkey">Prog Only</span> setting.</li>
+	<li>The tab <span class="softkey">Time</span> within the date and time menu got renamed to <span class="softkey">Session Time</span>. Session Time is the time the grandMA3 session is running at. In addition, the <span class="softkey">ClockSource</span> System Time within the clock window got renamed to Session Time. The session time can be different compared to your local time.</li>
+	<li>With the improvement to presets the universal fixture is now part of Stage 1.</li>
+	<li>The Store options overlay was renamed to Store Settings.</li>
+</ul>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- foldingContainer --><h2><a id="FixedBugs" name="FixedBugs"></a>Fixed Bugs</h2><div class="foldingContainer">
+
+<h3>3D</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The property "Beam Diameter" of the Beam geometry type was not visualized correctly if a fixture had an iris channel. This bug is fixed. The correct beam diameter is visualized at the origin of the beam, even if a fixture has an iris.</td>
+		</tr>
+		<tr>
+			<td>Gobo rotation was visualized with the wrong center of rotation if the position of a gobo wheel was between two slots. This bug is fixed. Gobos are rotating around their own center point now if the gobo wheel is positioned between two slots.</td>
+		</tr>
+		<tr>
+			<td>Fixture types with a complex geometrical structure (nested geometry references) were not visualized correctly in all cases. This could cause unexpected behavior of intensity or color of subfixtures. This bug is fixed. Fixture types with nested geometry references are visualized correctly now.</td>
+		</tr>
+		<tr>
+			<td>Gobos in the 3D window were flashing when changing the selection or changing settings in the 3D window. This bug is fixed. Fixtures with gobos are not flashing any longer when making changes elsewhere in the software or the 3D window.</td>
+		</tr>
+		<tr>
+			<td>The visualization in the 3D window did not utilize the RealFade values of the fixture type. This bug is fixed. Values of RealFade are now utilized again.</td>
+		</tr>
+		<tr>
+			<td>Iris animations like strobe or pulse were visualized with a much too high speed. This bug is fixed. Iris animations are visualized correctly now.</td>
+		</tr>
+		<tr>
+			<td>Textures of meshes were not imported correctly if the mesh and the texture were located in a subfolder. This bug is fixed. Textures are now imported correctly, even from a subfolder.</td>
+		</tr>
+		<tr>
+			<td>Single Step was switched off when doing a lasso selection in the 3D window. This bug is fixed. A lasso selection in the 3D window will not disable single step.</td>
+		</tr>
+		<tr>
+			<td>Fixtures with Blade channels did not show proper beams on a Mac onPC running on Apple M1 hardware. This bug is fixed. Blades are visualized correctly on Apple M1 hardware.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Command Line and Macro</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Fade in combination with FaderMaster did not obey a specified fade time. This bug is fixed. FaderMaster Page 1.201 at 100 fade 5 is working as expected.</td>
+		</tr>
+		<tr>
+			<td>If several different show files were loaded in a short amount of time, the software could crash. This bug is fixed. Rapid loading of different show files does not crash the software anymore.</td>
+		</tr>
+		<tr>
+			<td>Export and import of user profiles removed the link to default for properties, and therefore the values were set to the hard default value. This bug is fixed. Properties of user profiles are now keeping their link to the default value when the user profile will be exported and imported.</td>
+		</tr>
+		<tr>
+			<td>The encoder could be stuck for a while at value 255 when being in Dec8 readout and turning the encoder several times without interruption from 0 to 255 and vice versa. This bug is fixed. Encoders should not stick to a value anymore when turning them very fast from one end to the other end and back.</td>
+		</tr>
+		<tr>
+			<td>The fifth encoder in grandMA3 onPC running on Windows was still acting as screen encoder when the screen encoder was switched off. This bug is fixed. The fifth encoder works now always within the function it displays.</td>
+		</tr>
+		<tr>
+			<td>Changing the used preset while being in the update mode for a cue changed also the name of the cue. This bug is fixed. Cues labeled by the user won't change their name anymore when using the edit mode for a cue and changing a used preset.</td>
+		</tr>
+		<tr>
+			<td>When auto start was enabled for a sequence and the master fader of this sequence was set to 100% before starting a timecode show, the first go+ event for this sequence was not triggered by the timecode show. This bug is fixed. All timecode show events should be triggered correctly now.</td>
+		</tr>
+		<tr>
+			<td>When changing agenda events where the valid duration was not over, yet, were triggered again. This bug is fixed. Agenda events won't be executed again, when their duration is still valid and changes are made to the agenda event.</td>
+		</tr>
+		<tr>
+			<td><span class="softkey">Single Step</span> was always temporarily activated when tapping into any kind of a color picker. This bug is fixed. Only the color picker for attributes activates now temporarily <span class="softkey">Single Step</span> when tapping into the color picker in order to choose a color.</td>
+		</tr>
+		<tr>
+			<td>Commands with non-existing variables in it were executed in a way that the non-existing variable was ignored. This bug is fixed. Commands with non-existing variables won't be executed anymore. The command line history returns an error in this case.</td>
+		</tr>
+		<tr>
+			<td>Filters did not update their filter results when the properties of fixtures were changed, and these properties were used as a filter criterion. This bug is fixed. Changing fixture properties updates now also the results of filters.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>It was not possible to store a new executor when the selected page was deleted before. This bug is fixed. After deleting the selected page it is now possible again to store immediately new executors on page 1.</td>
+		</tr>
+		<tr>
+			<td>Mode dependencies caused other channels that were dependent to be knocked into the programmer if the active channel function of this channel was changed because of the mode dependency. This bug is fixed. The channel function is changed, but this does not cause the channel to be knocked into the programmer any longer.</td>
+		</tr>
+		<tr>
+			<td>Copy and paste of cues inserted the cues with their former cue number. This bug is fixed. Copy and paste of cues adjust now the cue number of the pasted cue to fit into the cue numbering at the destination.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when data was imported to the wrong destination. This bug is fixed. The software should not crash anymore when data was imported to the wrong destination.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Connections</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>When having 2 consoles in a session with a parallel input of LTC Timecode, the backup console did not take over the LTC smoothly. This bug is fixed. On signal loss, the backup console takes over within half of the defined afterroll time.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>In the onPC settings menu, the "MIDI via onPC command wing" button did not work as expected. This bug is fixed. When the button is toggled "on" the MIDI Signal from command wing is used, if toggle "off" the Signal of the selected USB device is used.</td>
+		</tr>
+		<tr>
+			<td>The target settings in the In/Out menu did not work properly. This bug is fixed. Selecting "Empty" as a target is working again.</td>
+		</tr>
+		<tr>
+			<td>The software could crash when sending an OSC string without specifying an OSC address. This bug is fixed. OSC strings without an address do not crash the software anymore.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Patch</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>In the "Insert New Fixtures" popup, if the DMX sheet was used to directly chose the address, tapping on the address directly was not possible. This bug is fixed. Choosing the desired address directly by tapping is working now.</td>
+		</tr>
+		<tr>
+			<td>In the "Insert New Fixtures" popup, if the DMX sheet was used and resized very small, it was not possible to change the size again. This bug is fixed. Resizing the DMX sheet is working as expected.</td>
+		</tr>
+		<tr>
+			<td>Changing the mode master of a patched fixture type could lead to shifting of default values between DMX channels. This bug is fixed. Default values will not be changed any longer when a mode master of a fixture type is changed.</td>
+		</tr>
+		<tr>
+			<td>Sometimes the Offset value was in the wrong Fixture. This bug is fixed. The Offset value is now in the correct fixture.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Phaser</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Activating the attributes that were running a phaser discarded the values for fade, delay, speed, and phase when a processing unit is part of the session. This bug is fixed. While having processing units in the session the knock-in of attributes does not discard values anymore when they are running a phaser.</td>
+		</tr>
+		<tr>
+			<td>Changing the speed of a phaser by using the <span class="softkey">Speed From</span> and <span class="softkey">Speed To</span> properties within the MAtricks window always restarted the phaser. This bug is fixed. Phasers adjust their speed now flawlessly when changing the speed by using <span class="softkey">Speed From</span> and <span class="softkey">Speed To</span> within the MAtricks window.</td>
+		</tr>
+		<tr>
+			<td>Oopsing the stomping of a phaser did not work. This bug is fixed. The stomping of phasers can now be reverted by using Oops.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Playback</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>The sequence setting "HTP" was not working properly. This bug is fixed. The sequence setting "HTP" is working as expected.</td>
+		</tr>
+		<tr>
+			<td>Sequences with SoftLTP off outputted their values first when moving their master fader. This bug is fixed. Sequences with SoftLTP off output their resulting value now immediately when they will be started.</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- subFoldingContainer --><h3>Windows</h3><div class="subFoldingContainer">
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>In the sequence edit overlay, the auto-scroll option did not work properly. This bug is fixed. Enabled auto-scroll in the sequence edit sheet jumps to the currently edited cue.</td>
+		</tr>
+		<tr>
+			<td>The sequence sheet did not display individual fade, delay, and duration times correctly. This bug is fixed. The individual times in the sequence sheet are displayed properly now.</td>
+		</tr>
+		<tr>
+			<td>Saved preferences in the update menu did not include all options. This bug is fixed. Saving and recalling the preferences in the update menu is working as expected.</td>
+		</tr>
+		<tr>
+			<td>If multiple encoder bars and layout views were used at the same time, the onPC software could crash. This bug is fixed. Several encoder bars and layout views can be used in parallel.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>When changing the DMX sheet to Levelbar "Bar", the values were not displayed properly. This bug is fixed. Level bars are displayed properly in the DMX sheet now.</td>
+		</tr>
+		<tr>
+			<td>The Trackpad, set to mode Pan/Tilt was not working with physical readout. This bug is fixed. The Trackpad in Pan/Tilt mode also works with physical readout.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>The values that were displayed within the fixture sheet for a collapsed grouping fixture could flicker from time to time. This bug is fixed. The values of grouping fixtures do not flicker anymore within the fixture sheet.</td>
+		</tr>
+		<tr>
+			<td>The HSB Color Picker and the fader page of the color picker did not work for fixture types with subtractive color mixing and only one measurement of the color flags at 100 % insertion. This bug is fixed. The color picker is working for subtractive color mixing with only one measurement defined for a fixture type.</td>
+		</tr>
+		<tr>
+			<td>In Agenda setup mode, if the entry "New Agenda Event" was copy and pasted on itself, a loop was created. This bug is fixed. If the first entry is copy and pasted on itself only one more event is created.</td>
+		</tr>
+		<tr>
+			<td>The fixture sheet did not display the correct fixtures when leaving the edit mode and the <span class="softkey">Global</span> mask was enabled.&nbsp;This bug is fixed. After using the edit mode, the fixture sheet redraws properly when using the <span class="softkey">Global</span> mask.&nbsp;</td>
+		</tr>
+		<tr>
+			<td>Pie charts of color presets displayed a black pie if a fixture with subtractive color mixing had measured filter data. This bug is fixed. Pie charts of color presets now show the correct color even for a fixture with subtractive color mixing and measured filter data.</td>
+		</tr>
+		<tr>
+			<td>The Audio In Device pop-up could display (null) instead of the device name or the manufacturer. This bug is fixed. The Audio In Device pop-up displays now "Device x" when the device name is not provided by the device or it displays "Manufacturer unknown" when the manufacturer is not provided by the device.</td>
+		</tr>
+		<tr>
+			<td>It could happen that not all feature groups were offered as preset pools within the Add window dialog. This bug is fixed. All feature groups of a show file are now offered to create preset pool windows for.</td>
+		</tr>
+		<tr>
+			<td>It was not possible to scroll through the list of cues within the edit sequence window by using the screen encoder when the sequence had not enough cues to get the whole list scrolling on the display. This bug is fixed. It is now always possible to scroll through the list of cues within the edit sequence window by using the screen encoder.</td>
+		</tr>
+		<tr>
+			<td>EditSetting + tapping the area of the selected sequence in the letterbox display opened the sequence setting menu on the letterbox display. This bug is fixed. The sequence settings of the selected sequence will now be opened on display 2 when having EditSetting in the command line and then tapping the area of the selected sequence within the letterbox display.</td>
+		</tr>
+		<tr>
+			<td>The ViewMode Month of the agenda displayed also the last week of the former month, when the week day of the first day of the month matched up with the set up day in the StartOfWeek setting. This bug is fixed. The ViewMode Month in the agenda window does not display unnecessary whole weeks of the former month anymore.</td>
+		</tr>
+		<tr>
+			<td>The command line history window and overlay displayed a black background when having the daylight color theme active. This bug is fixed. The command line history window and overlay respect now the colors of the color theme.</td>
+		</tr>
+		<tr>
+			<td>It was not possible to open the name input popup for a timecode track by using the screen encoder. This bug is fixed. The screen encoder can now be used to open the name input popup for timecode tracks.</td>
+		</tr>
+		<tr>
+			<td>It was not possible to switch between the different feature groups within the <span class="softkey">Export</span>-tab Import/Export menu when the local area had sheet style enabled. This bug is fixed. The <span class="softkey">Export</span>-tab of the Import/Export menu allows now to switch between feature groups when sheet style is enabled.</td>
+		</tr>
+		<tr>
+			<td>The Off menu could be moved outside the visible screen area. This bug is fixed. The Off menu cannot be dragged around on the screen anymore.</td>
+		</tr>
+		<tr>
+			<td>The phaser overlay reset its settings every time when it was closed. This bug is fixed. The settings are only reset after a clear.</td>
+		</tr>
+		<tr>
+			<td>Executor labels displayed the cues of the sequence repeatedly when the off cue would have been used for switching off the sequence, and when the executor label was higher than 1 row. This bug is fixed. High executor labels display now only one set of their cues when the off cue has any time set up.</td>
+		</tr>
+		<tr>
+			<td>Calling menus on displays that were not defined for the menus could crash the software. This bug is fixed. Menus won't open anymore on displays that are not defined for the menus.</td>
+		</tr>
+		<tr>
+			<td>The temporary pool overlays of views and sequences did not use their pool color. This bug is fixed. All temporary pool overlays use now always the defined pool color of their object type.</td>
+		</tr>
+		<tr>
+			<td>The fixture sheet did not display values for attributes in the DMX layer when the values were on their default value. This bug is fixed. The DMX layer in the fixture sheet displays now always the value for each attribute.</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- subFoldingContainer --></div> <!-- foldingContainer --><h2><a id="Appendix" name="Appendix"></a>Appendix</h2><div class="foldingContainer">
+
+<ul>
+	<li>It is recommended to use a dedicated and a separate physical network for each grandMA3 session.</li>
+	<li>When using DMX protocols it is recommended to use a dedicated physical network for each protocol.</li>
+	<li>The recommended workflow for executor configurations that are different compared with the default executor configuration is to create a new executor configuration, do the changes in the new configuration and save the changes.</li>
+	<li>XML files with exported executor configurations from grandMA3 v1.2 and prior cannot be properly imported to grandMA3 v1.3 or later due to structural changes.</li>
+	<li>XML files with exported analog remote setups from grandMA3 v1.3 and prior cannot be properly imported to grandMA3 v1.4 or later due to structural changes.</li>
+	<li>XML files with exported timecode shows from grandMA3 v1.3 and prior cannot be properly imported to grandMA3 v1.4 or later due to structural changes.</li>
+	<li>XML files with exported presets from grandMA3 v1.5 and prior cannot be properly imported to grandMA3 v1.6 or later due to structural changes.</li>
+</ul>
+
+<hr />
+<div style="page-break-after: always" class="ck_pagebreak"><span style="display:none">&nbsp;</span></div>
+
+</div> <!-- foldingContainer --><h2><a id="KnownLimitations" name="KnownLimitations"></a>Known Limitations</h2><div class="foldingContainer">
+
+<div class="warning">Exchanging a multi-instance fixture to a single-instance fixture type might not convert presets when the parent fixture has not the attributes.</div>
+
+<div class="warning">Software update via network to onPC stations requires confirmation during the install process at the destination system.</div>
+
+<div class="warning">When deleting a preset that is referenced by a cue the reference cannot be restored when oopsing the deletion.</div>
+
+<div class="warning">When multiple GlobalMasters exist on the network, each having the same session and location name, the station with the higher priority takes over without user input. If all stations have the same priority, then the station with the longest Online Time becomes the GlobalMaster for all stations.</div>
+
+<div class="warning">Programmer content is discarded when loading show files from previous versions.</div>
+
+					</div>
+				
+					<div id="offline-subtopics">
+
+					</div></div> <!-- foldingContainer --><div class="foldControlDiv"></div>
+				</div>
+			</main>
+		</div>
+		
+		<script type="text/javascript">
+			$(function() {
+				var jsTree = $('#offline-tree').jstree({
+					'core': {
+						'check_callback': true,
+						'themes': {
+							'responsive': false
+						}
+					},
+				});
+
+				$('#offline-tree #969b2e86-321b-4a7d-8c40-e0b4ed7e76ae a').css('font-weight', 'bold');
+			
+				$('#offline-tree').jstree("select_node",  $('#969b2e86-321b-4a7d-8c40-e0b4ed7e76ae'));
+			
+				jsTree.bind('activate_node.jstree', function(e, data) {
+					window.location.href = data.node.a_attr.href;
+				});
+				
+				
+				var tree_container = $('#offline-tree').jstree().get_container();
+				openTreeChildren(tree_container);
+				
+								$("#offline-tree").jstree("open_node", $('#21bcf25c-b9cc-48de-9a76-1e987ab9858c'), null, 0);
+								$("#offline-tree").jstree("open_node", $('#969b2e86-321b-4a7d-8c40-e0b4ed7e76ae'), null, 0);
+							
+								$("#offline-tree").jstree("select_node",  $('#969b2e86-321b-4a7d-8c40-e0b4ed7e76ae'));
+								(function() { var offset = $('#969b2e86-321b-4a7d-8c40-e0b4ed7e76ae').offset().top - $('.topic-tree-container').offset().top - 150; if (offset > 0) { $('.topic-tree-container').animate({ scrollTop: offset }, 300); } }, 200);
+							
+
+
+				// anchor scroll offset fix
+				$(function() {
+					$('a[href]').bind('click', function(ev) {
+						var href = $(this).attr('href');
+						if (href.indexOf('#') == 0) {
+							scrollToElemByIdOrName(href.substr(1, href.length - 1));
+						}
+					});
+
+					$(window).bind('load', function() {
+						if (location.hash != null) {
+							scrollToElemByIdOrName(location.hash.replace(/^#/, ''));
+						}
+					});
+				});
+
+				// burger menu
+				if (window.location.hash != null && window.location.hash == '#responsive') {
+					// open nav-tree if hash is set
+					$('body').toggleClass('responsive');					
+				}
+				$('.burger-menu-icon').bind('click', function() {
+					if ($('.search-results').length > 0) {
+						window.location.href = window.location.href + '#responsive';
+						window.location.reload();
+					}
+					$('body').toggleClass('responsive');
+				});
+				$('.topic-tree .close-icon').bind('click', function() {
+					$('body').removeClass('responsive');
+				});
+
+				// offline-search
+				window.searchEngine = helpSearch();
+			});
+			
+			(function($) {
+				$.fn.innerstaticHeight = function() {
+					var height = $(window).height() - $('header').height() - $('footer').height() - 30;
+					$('.topic-tree .topic-tree-container').css('height', height + 'px');
+				}
+			})(jQuery);
+
+			$(document).ready(function() {
+				$('.topic-tree .topic-tree-container').innerstaticHeight();
+			});
+			$(window).bind('resize', function() {
+				$('.topic-tree .topic-tree-container').innerstaticHeight();
+			});
+			
+			function openTreeChildren(parent, level) {
+				if (level == null) {
+					level = 0;
+				}
+				$(parent).find('li').each(function(i) {
+					if (level < 0) {
+						$("#catTree").jstree("open_node", $(this));
+						openTreeChildren($('#' + $(this).attr('id')), level + 1);
+					}
+				});
+			}
+			
+			function scrollToElemByIdOrName(elemIdOrName, speed) {
+				if (speed == null) {
+					speed = 150;
+				}
+				var target = null;
+				try {
+					target = $('a#' + elemIdOrName);
+				} catch(ex) {
+				}
+				if (target == null || target.length <= 0) {
+					target = $('a[name="' + elemIdOrName + '"]');
+				}
+				if (target != null && target.length > 0) {
+					var top = (target.offset().top) - 150;
+					$('html, body').animate({ scrollTop: top }, speed);
+				}
+			}
+		</script>
+		
+	</body>
+</html>
